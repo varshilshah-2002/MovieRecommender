@@ -21,15 +21,15 @@ def predict():
     #     URLlist = prediction
     if type(prediction) == type(0):
         print("MOVIES NOT IN THE DATASET")
-        return render_template('result.html', result = ['https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/fb3ef66312333.5691dd2253378.jpg'])
+        return render_template('result.html', result = ['https://www.prokerala.com/movies/assets/img/no-poster-available.jpg '])
 
     URLlist = list()
     ##
     t0 = threading.Thread(target=get_poster,args=(prediction[0],URLlist))
-    t1 = threading.Thread(target=get_poster,args=(prediction[0],URLlist))
-    t2 = threading.Thread(target=get_poster,args=(prediction[0],URLlist))
-    t3 = threading.Thread(target=get_poster,args=(prediction[0],URLlist))
-    t4 = threading.Thread(target=get_poster,args=(prediction[0],URLlist))
+    t1 = threading.Thread(target=get_poster,args=(prediction[1],URLlist))
+    t2 = threading.Thread(target=get_poster,args=(prediction[2],URLlist))
+    t3 = threading.Thread(target=get_poster,args=(prediction[3],URLlist))
+    t4 = threading.Thread(target=get_poster,args=(prediction[4],URLlist))
     t0.start()
     t1.start()
     t2.start()
