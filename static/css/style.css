@@ -106,7 +106,8 @@ h1{
 	display: grid;
 	-ms-grid-columns: (minmax(27rem, 1fr))[auto-fit];
 		grid-template-columns: repeat(auto-fit, minmax(27rem, 1fr));
-	gap: 1.5rem;
+	gap: 1.9rem;
+	padding:2rem;
   }
   
  .box-container .box {
@@ -128,7 +129,7 @@ h1{
   
  .box-container .box .image img {
 	height: 400px;
-	width: 300px!important;
+	width: 270px!important;
 	-o-object-fit: cover;
 	 object-fit: cover;
   }
