@@ -8,7 +8,8 @@ fhand = open('stop_words.txt','r')
 stopwords_list = (fhand.read()).split()
 fhand.close()
 df = pd.read_excel('dataset/dataset.xlsx') #read from excel
-strength = 30 #quality of predictions, directly proportional to processing time
+strength = 20 #quality of predictions, directly proportional to processing time
+inpt_name = None
 
 #If a title absent from db is entered, this function returns the closest match
 def find_closest(inpt_title):
@@ -28,8 +29,7 @@ def remove_stopwords(text_list):
     for i in range(0,strength):
         rand_index = random.randrange(len(list_append)-100,len(list_append)-20)
         rand_list.append(list_append[rand_index])
-    print(list_append[:strength] + rand_list)
-    return list_append[:strength] + rand_list
+    return list_append[:strength] + rand_list 
 
 #Returns the movie-id for the movie_name
 def get_movie_id(movie_name):
@@ -44,10 +44,12 @@ def good_words(movie_id):
     string = None
     for i in (df['meta_data'][df['movie_id']==movie_id]):
         string = i
+    if string is None:
+        return inpt_name.split(' ')*3
     good_words = remove_stopwords(string.split())
     good_words = set(good_words)
     good_words = list(good_words)
-    return good_words
+    return good_words + inpt_name.split(' ')*3
 
 def IDF_helper(x,good_word,idf_dict):
     if good_word in str(x):
@@ -73,7 +75,9 @@ def TF(tf_dict,good_words_list,idf_dict):
 
 #Returns a list of similar movies, returns -1 if unable to find similar movies
 def movie_predict(movie_name):
+    global inpt_name
     movie_name = movie_name.lower()
+    inpt_name = movie_name
     idf_dict = dict()
     tf_dict = dict()
     tf_idf_list = list()
@@ -83,9 +87,10 @@ def movie_predict(movie_name):
             movie_name = find_closest(movie_name)
             movie_id = get_movie_id(movie_name)
         except:
-            return -1
-        
-    good_words_list = good_words(movie_id)  #good words are words other than stop words     
+            movie_name = inpt_name
+    print(movie_name)
+    good_words_list = good_words(movie_id)  #good words are words other than stop words   
+    print(good_words_list)  
     IDF(idf_dict,good_words_list)
     TF(tf_dict,good_words_list,idf_dict)
     tup_list = list()
